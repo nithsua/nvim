@@ -1,0 +1,8 @@
+# Claude Code local settings (machine-specific)
+.claude/settings.local.json
+
+# Neovim-generated files
+spell/
+
+# OS junk
+.DS_Store
