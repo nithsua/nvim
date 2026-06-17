@@ -27,7 +27,7 @@ return {
     filesystem = {
       follow_current_file = { enabled = true }, -- highlight the open file
       use_libuv_file_watcher = true, -- auto-refresh on external changes
-      hijack_netrw_behavior = "open_current", -- open neo-tree in place of a directory buffer
+      hijack_netrw_behavior = "open_default", -- open as a sidebar (stays open when you open a file)
       filtered_items = {
         hide_dotfiles = false, -- show dotfiles (handy for config editing)
         hide_gitignored = false,
