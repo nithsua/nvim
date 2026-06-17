@@ -12,4 +12,5 @@ require("lazy").setup({
   install = { colorscheme = { "monokai" } },
   checker = { enabled = true, notify = false }, -- check for plugin updates quietly
   change_detection = { notify = false },
+  rocks = { enabled = false }, -- no luarocks plugins; silences the health warning
 })

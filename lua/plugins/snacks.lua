@@ -6,6 +6,10 @@ return {
   opts = {
     picker = { enabled = true },
   },
+  config = function(_, opts)
+    require("snacks").setup(opts)
+    vim.ui.select = Snacks.picker.select -- nicer code-action / select menus
+  end,
   keys = {
     { "<leader>ff", function() Snacks.picker.files() end, desc = "Find files" },
     { "<leader>fg", function() Snacks.picker.grep() end, desc = "Grep (live)" },
