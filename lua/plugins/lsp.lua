@@ -12,6 +12,7 @@ return {
         automatic_enable = false, -- we enable explicitly below
       },
     },
+    "saghen/blink.cmp", -- loaded first so its LSP capabilities are available below
   },
   config = function()
     -- Diagnostics UI.
@@ -72,8 +73,12 @@ return {
       },
     })
 
-    -- Turn the servers on (uses cmd from PATH: system clangd/gopls work
-    -- immediately; mason's copies take over once installed).
+    -- Advertise blink.cmp's richer completion capabilities to every server.
+    vim.lsp.config("*", {
+      capabilities = require("blink.cmp").get_lsp_capabilities(),
+    })
+
+    -- Turn the servers on.
     vim.lsp.enable({ "clangd", "gopls", "lua_ls" })
 
     -- Buffer-local keymaps + inlay hints when a server attaches.
