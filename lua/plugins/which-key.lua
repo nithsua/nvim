@@ -8,8 +8,12 @@ return {
     spec = {
       -- Group labels for our <leader> prefixes (filled in by later stages).
       { "<leader>b", group = "buffer" },
+      { "<leader>c", group = "code" },
       { "<leader>d", group = "diagnostics" },
       { "<leader>f", group = "find/format" },
+      { "<leader>r", group = "rename/refactor" },
+      { "<leader>s", group = "search/symbols" },
+      { "<leader>t", group = "toggle" },
     },
   },
   keys = {
