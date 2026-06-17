@@ -4,6 +4,21 @@ A hand-rolled, modular Neovim configuration focused on **C/C++** and **Go**.
 Monokai (classic) on a pure-black background, [lazy.nvim](https://github.com/folke/lazy.nvim)
 for plugin management, and Neovim's native LSP.
 
+## Quick start (fresh Mac)
+
+One idempotent script installs everything (Homebrew, Neovim, Ghostty, the
+toolchain + fonts), clones this config, sets a `vi`/`vim` → `nvim` alias, and
+installs the plugins. Safe to re-run.
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/nithsua/nvim/main/bootstrap.sh -o /tmp/nvim-bootstrap.sh
+bash /tmp/nvim-bootstrap.sh
+```
+
+Then open a new terminal (Ghostty) and run `vi`. On the first launch mason
+finishes installing the LSP servers and Treesitter parsers compile — give it a
+moment, then restart. See [`bootstrap.sh`](bootstrap.sh) for exactly what it does.
+
 ## Requirements
 
 - Neovim **0.11+** (uses the native `vim.lsp.config`/`vim.lsp.enable` API)
