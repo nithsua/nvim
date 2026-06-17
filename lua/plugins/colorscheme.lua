@@ -1,19 +1,29 @@
--- Colorscheme. Swap this file out for any other theme later.
+-- Colorscheme: Monokai (classic) forced onto a pure-black background.
 return {
-  "catppuccin/nvim",
-  name = "catppuccin",
+  "tanvirtin/monokai.nvim",
+  lazy = false,
   priority = 1000, -- load before everything else so the UI doesn't flash
   config = function()
-    require("catppuccin").setup({
-      flavour = "mocha", -- latte / frappe / macchiato / mocha
-      integrations = {
-        treesitter = true,
-        native_lsp = { enabled = true },
-        gitsigns = true,
-        mini = { enabled = true },
-        which_key = true,
-      },
-    })
-    vim.cmd.colorscheme("catppuccin")
+    local monokai = require("monokai")
+    monokai.setup({ palette = monokai.classic })
+
+    -- Keep monokai's syntax colors but force the background to true black.
+    local bg = "#000000"
+    local bg_groups = {
+      "Normal", "NormalNC", "NormalFloat", "FloatBorder",
+      "SignColumn", "EndOfBuffer", "FoldColumn", "LineNr",
+      "CursorLineNr", "MsgArea", "WinSeparator",
+    }
+    local function blacken()
+      for _, name in ipairs(bg_groups) do
+        local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
+        hl.bg = bg
+        vim.api.nvim_set_hl(0, name, hl)
+      end
+    end
+
+    vim.api.nvim_create_autocmd("ColorScheme", { callback = blacken })
+    vim.cmd.colorscheme("monokai")
+    blacken()
   end,
 }
