@@ -7,6 +7,10 @@ vim.g.maplocalleader = " "
 -- read this to choose icons vs plain-text. Flip manually if a terminal differs.
 vim.g.have_nerd_font = vim.env.TERM_PROGRAM ~= "Apple_Terminal"
 
+-- Make mason-installed tools (formatters, linters) findable on PATH at startup,
+-- before mason itself loads — so conform can locate clang-format/stylua/etc.
+vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
+
 -- Core editor configuration.
 require("config.options")
 require("config.keymaps")
