@@ -11,6 +11,10 @@ vim.g.have_nerd_font = vim.env.TERM_PROGRAM ~= "Apple_Terminal"
 -- before mason itself loads — so conform can locate clang-format/stylua/etc.
 vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
 
+-- Disable netrw — neo-tree is the file explorer. Must be set before plugins load.
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Core editor configuration.
 require("config.options")
 require("config.keymaps")

@@ -11,6 +11,15 @@ return {
   keys = {
     { "<leader>e", "<cmd>Neotree toggle reveal<cr>", desc = "Explorer (neo-tree)" },
   },
+  -- Load neo-tree (and let it take over) when nvim is opened on a directory.
+  init = function()
+    if vim.fn.argc(-1) == 1 then
+      local stat = vim.uv.fs_stat(vim.fn.argv(0))
+      if stat and stat.type == "directory" then
+        require("neo-tree")
+      end
+    end
+  end,
   opts = {
     close_if_last_window = true,
     enable_git_status = true,
@@ -18,7 +27,7 @@ return {
     filesystem = {
       follow_current_file = { enabled = true }, -- highlight the open file
       use_libuv_file_watcher = true, -- auto-refresh on external changes
-      hijack_netrw_behavior = "open_default",
+      hijack_netrw_behavior = "open_current", -- open neo-tree in place of a directory buffer
       filtered_items = {
         hide_dotfiles = false, -- show dotfiles (handy for config editing)
         hide_gitignored = false,
