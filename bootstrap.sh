@@ -129,8 +129,11 @@ GHCONF
   ok "Wrote Ghostty config"
 fi
 
-# --- 7. tmux: TPM plugin manager + config + plugins --------------------------
-TPM_DIR="$HOME/.tmux/plugins/tpm"
+# --- 7. tmux: TPM plugin manager + config + plugins (XDG: ~/.config/tmux) ----
+# TPM auto-detects the XDG config and installs plugins under ~/.config/tmux/plugins.
+TMUX_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/tmux"
+TPM_DIR="$TMUX_DIR/plugins/tpm"
+mkdir -p "$TMUX_DIR"
 if [[ -d "$TPM_DIR" ]]; then
   ok "TPM (tmux plugin manager) already present"
 else
@@ -138,10 +141,10 @@ else
   git clone --depth 1 https://github.com/tmux-plugins/tpm "$TPM_DIR"
 fi
 
-if [[ -f "$HOME/.tmux.conf" ]]; then
+if [[ -f "$TMUX_DIR/tmux.conf" ]]; then
   ok "tmux config already present"
 else
-  cat >"$HOME/.tmux.conf" <<'TMUXCONF'
+  cat >"$TMUX_DIR/tmux.conf" <<TMUXCONF
 # --- Minimal, Mac-friendly tmux config ---
 
 # Start windows and panes with 1 (not 0)
@@ -185,9 +188,9 @@ bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel "pbcopy"
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-sensible'
 
-run '~/.tmux/plugins/tpm/tpm'
+run '$TMUX_DIR/plugins/tpm/tpm'
 TMUXCONF
-  ok "Wrote ~/.tmux.conf"
+  ok "Wrote $TMUX_DIR/tmux.conf"
 fi
 
 # Install plugins declared in the config (idempotent; TPM skips installed ones).
@@ -227,6 +230,6 @@ cat <<'DONE'
   * On first launch, mason finishes installing the LSP servers
     (clangd, gopls, lua_ls) and Treesitter parsers compile.
     Give it a moment, then restart nvim.
-  * tmux: configured with TPM + tmux-sensible (~/.tmux.conf).
+  * tmux: configured with TPM + tmux-sensible (~/.config/tmux/tmux.conf).
 ------------------------------------------------------------
 DONE
