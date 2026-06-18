@@ -23,8 +23,15 @@ return {
     formatters_by_ft = {
       c = { "clang_format" },
       cpp = { "clang_format" },
-      go = { "goimports", "gofumpt" },
+      go = { "goimports", "golines" },
       lua = { "stylua" },
+    },
+    formatters = {
+      -- Wrap Go lines at 80 cols; golines applies gofumpt as its base formatter
+      -- so the final output is still gofumpt-styled.
+      golines = {
+        prepend_args = { "--max-len=80", "--base-formatter=gofumpt" },
+      },
     },
     default_format_opts = { lsp_format = "fallback" },
     format_on_save = function(bufnr)
