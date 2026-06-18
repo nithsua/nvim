@@ -1,7 +1,7 @@
 # Neovim config
 
 A hand-rolled, modular Neovim configuration focused on **C/C++** and **Go**.
-Monokai (classic) on a pure-black background, [lazy.nvim](https://github.com/folke/lazy.nvim)
+Monokai Pro (pro filter) on a pure-black background, [lazy.nvim](https://github.com/folke/lazy.nvim)
 for plugin management, and Neovim's native LSP.
 
 ## Quick start (fresh Mac)
@@ -42,7 +42,7 @@ lua/config/
   autocmds.lua           autocommands
   lazy.lua               plugin-manager bootstrap
 lua/plugins/             one file per plugin (auto-imported)
-  colorscheme.lua        monokai on #000000
+  colorscheme.lua        monokai-pro on #000000
   lualine.lua  which-key.lua
   neo-tree.lua  snacks.lua        explorer + fuzzy finder
   treesitter.lua

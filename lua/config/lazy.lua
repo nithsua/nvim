@@ -9,7 +9,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Load every spec file under lua/plugins/.
 require("lazy").setup({
   spec = { { import = "plugins" } },
-  install = { colorscheme = { "monokai" } },
+  install = { colorscheme = { "monokai-pro" } },
   checker = { enabled = true, notify = false }, -- check for plugin updates quietly
   change_detection = { notify = false },
   rocks = { enabled = false }, -- no luarocks plugins; silences the health warning

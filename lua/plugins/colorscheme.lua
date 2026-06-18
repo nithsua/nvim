@@ -1,13 +1,14 @@
--- Colorscheme: Monokai (classic) forced onto a pure-black background.
+-- Colorscheme: Monokai Pro forced onto a pure-black background.
 return {
-  "tanvirtin/monokai.nvim",
+  "loctvl842/monokai-pro.nvim",
   lazy = false,
   priority = 1000, -- load before everything else so the UI doesn't flash
   config = function()
-    local monokai = require("monokai")
-    monokai.setup({ palette = monokai.classic })
+    require("monokai-pro").setup({
+      filter = "pro", -- classic | octagon | pro | machine | ristretto | spectrum
+    })
 
-    -- Keep monokai's syntax colors but force the background to true black.
+    -- Keep Monokai Pro's syntax colors but force the background to true black.
     local bg = "#000000"
     local bg_groups = {
       "Normal", "NormalNC", "NormalFloat", "FloatBorder",
@@ -23,7 +24,7 @@ return {
     end
 
     vim.api.nvim_create_autocmd("ColorScheme", { callback = blacken })
-    vim.cmd.colorscheme("monokai")
+    vim.cmd.colorscheme("monokai-pro")
     blacken()
   end,
 }
