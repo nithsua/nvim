@@ -68,7 +68,7 @@ if ! grep -qsF "$SHELLENV_LINE" "$HOME/.zprofile"; then
 fi
 
 # --- 3. CLI tools the config needs -------------------------------------------
-for f in neovim git go ripgrep fd clang-format; do
+for f in neovim git go ripgrep fd clang-format tmux; do
   if brew list --formula "$f" >/dev/null 2>&1; then
     ok "$f already installed"
   else
@@ -129,7 +129,74 @@ GHCONF
   ok "Wrote Ghostty config"
 fi
 
-# --- 7. vi/vim alias + default editor (idempotent block in ~/.zshrc) ---------
+# --- 7. tmux: TPM plugin manager + config + plugins --------------------------
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+if [[ -d "$TPM_DIR" ]]; then
+  ok "TPM (tmux plugin manager) already present"
+else
+  info "Installing TPM (tmux plugin manager)..."
+  git clone --depth 1 https://github.com/tmux-plugins/tpm "$TPM_DIR"
+fi
+
+if [[ -f "$HOME/.tmux.conf" ]]; then
+  ok "tmux config already present"
+else
+  cat >"$HOME/.tmux.conf" <<'TMUXCONF'
+# --- Minimal, Mac-friendly tmux config ---
+
+# Start windows and panes with 1 (not 0)
+set -g base-index 1
+setw -g pane-base-index 1
+
+# Enable mouse support (for now — easy transition)
+set -g mouse on
+
+# Set 256 color support
+set -g default-terminal "screen-256color"
+
+# Fast response to escape sequences
+set -sg escape-time 0
+
+# Use vim keybindings in copy mode
+setw -g mode-keys vi
+
+# Easy pane navigation with hjkl
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# Split shortcuts
+bind | split-window -h
+bind - split-window -v
+unbind '"'
+unbind %
+
+# Status bar (minimal style)
+set -g status-bg black
+set -g status-fg white
+set -g status-left '#[fg=green]#H '
+set -g status-right '#[fg=cyan]%Y-%m-%d %H:%M'
+
+# Copy to macOS system clipboard in vi-mode
+bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel "pbcopy"
+
+# TPM plugin manager
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+
+run '~/.tmux/plugins/tpm/tpm'
+TMUXCONF
+  ok "Wrote ~/.tmux.conf"
+fi
+
+# Install plugins declared in the config (idempotent; TPM skips installed ones).
+if [[ -x "$TPM_DIR/bin/install_plugins" ]]; then
+  info "Installing tmux plugins..."
+  "$TPM_DIR/bin/install_plugins" >/dev/null 2>&1 || warn "tmux plugin install hit an issue; inside tmux press prefix + I to retry."
+fi
+
+# --- 8. vi/vim alias + default editor (idempotent block in ~/.zshrc) ---------
 ZSHRC="$HOME/.zshrc"
 if ! grep -qsF "# >>> nvim aliases >>>" "$ZSHRC"; then
   cat >>"$ZSHRC" <<'ZRC'
@@ -146,7 +213,7 @@ else
   ok "vi/vim aliases already in ~/.zshrc"
 fi
 
-# --- 8. Install plugins ------------------------------------------------------
+# --- 9. Install Neovim plugins -----------------------------------------------
 info "Installing Neovim plugins (lazy.nvim)... first run downloads everything."
 nvim --headless "+Lazy! sync" +qa || warn "Plugin sync hit an issue; open nvim and run :Lazy"
 
@@ -160,5 +227,6 @@ cat <<'DONE'
   * On first launch, mason finishes installing the LSP servers
     (clangd, gopls, lua_ls) and Treesitter parsers compile.
     Give it a moment, then restart nvim.
+  * tmux: configured with TPM + tmux-sensible (~/.tmux.conf).
 ------------------------------------------------------------
 DONE

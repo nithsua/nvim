@@ -6,9 +6,9 @@ for plugin management, and Neovim's native LSP.
 
 ## Quick start (fresh Mac)
 
-One idempotent script installs everything (Homebrew, Neovim, Ghostty, the
-toolchain + fonts), clones this config, sets a `vi`/`vim` → `nvim` alias, and
-installs the plugins. Safe to re-run.
+One idempotent script installs everything (Homebrew, Neovim, Ghostty, tmux, the
+toolchain + fonts), clones this config + a tmux config (TPM), sets a
+`vi`/`vim` → `nvim` alias, and installs the plugins. Safe to re-run.
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/nithsua/nvim/main/bootstrap.sh -o /tmp/nvim-bootstrap.sh
