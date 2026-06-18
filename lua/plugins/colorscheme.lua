@@ -1,23 +1,33 @@
--- Colorscheme: tokyonight (night) forced onto a pure-black background.
+-- Colorscheme: kanagawa (wave) forced onto a pure-black background.
 return {
-  "folke/tokyonight.nvim",
+  "rebelot/kanagawa.nvim",
   lazy = false,
   priority = 1000, -- load before everything else so the UI doesn't flash
   opts = {
-    style = "night", -- darkest variant; matches the palette you picked
-    on_colors = function(colors)
-      -- Pure black everywhere, keep tokyonight's syntax palette.
+    theme = "wave", -- wave / dragon / lotus
+    background = { dark = "wave" },
+    -- Black out the main backgrounds; overrides deep-merge, so kanagawa's
+    -- foreground palette (and cursorline/visual contrast) is preserved.
+    overrides = function()
       local black = "#000000"
-      colors.bg = black
-      colors.bg_dark = black
-      colors.bg_float = black
-      colors.bg_popup = black
-      colors.bg_sidebar = black
-      colors.bg_statusline = black
+      return {
+        Normal = { bg = black },
+        NormalNC = { bg = black },
+        NormalFloat = { bg = black },
+        FloatBorder = { bg = black },
+        FloatTitle = { bg = black },
+        SignColumn = { bg = black },
+        LineNr = { bg = black },
+        Folded = { bg = black },
+        NormalSB = { bg = black },
+        Pmenu = { bg = black },
+        StatusLine = { bg = black },
+        StatusLineNC = { bg = black },
+      }
     end,
   },
   config = function(_, opts)
-    require("tokyonight").setup(opts)
-    vim.cmd.colorscheme("tokyonight")
+    require("kanagawa").setup(opts)
+    vim.cmd.colorscheme("kanagawa")
   end,
 }
