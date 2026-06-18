@@ -1,29 +1,23 @@
--- Colorscheme: Monokai (classic) forced onto a pure-black background.
+-- Colorscheme: tokyonight (night) forced onto a pure-black background.
 return {
-  "tanvirtin/monokai.nvim",
+  "folke/tokyonight.nvim",
   lazy = false,
   priority = 1000, -- load before everything else so the UI doesn't flash
-  config = function()
-    local monokai = require("monokai")
-    monokai.setup({ palette = monokai.classic })
-
-    -- Keep monokai's syntax colors but force the background to true black.
-    local bg = "#000000"
-    local bg_groups = {
-      "Normal", "NormalNC", "NormalFloat", "FloatBorder",
-      "SignColumn", "EndOfBuffer", "FoldColumn", "LineNr",
-      "CursorLineNr", "MsgArea", "WinSeparator",
-    }
-    local function blacken()
-      for _, name in ipairs(bg_groups) do
-        local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
-        hl.bg = bg
-        vim.api.nvim_set_hl(0, name, hl)
-      end
-    end
-
-    vim.api.nvim_create_autocmd("ColorScheme", { callback = blacken })
-    vim.cmd.colorscheme("monokai")
-    blacken()
+  opts = {
+    style = "night", -- darkest variant; matches the palette you picked
+    on_colors = function(colors)
+      -- Pure black everywhere, keep tokyonight's syntax palette.
+      local black = "#000000"
+      colors.bg = black
+      colors.bg_dark = black
+      colors.bg_float = black
+      colors.bg_popup = black
+      colors.bg_sidebar = black
+      colors.bg_statusline = black
+    end,
+  },
+  config = function(_, opts)
+    require("tokyonight").setup(opts)
+    vim.cmd.colorscheme("tokyonight")
   end,
 }
