@@ -26,7 +26,7 @@ opt.cursorline = true
 opt.scrolloff = 8 -- keep lines of context above/below cursor
 opt.sidescrolloff = 8
 opt.wrap = false
-opt.colorcolumn = "100"
+opt.colorcolumn = "80"
 opt.showmode = false -- statusline already shows the mode
 
 -- Splits open in a natural direction
